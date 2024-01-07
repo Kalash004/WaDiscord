@@ -52,7 +52,9 @@
     </head>
 
     <body>
-        <form>
+        <form
+            action="/api/login"
+            method="post">
             <label for="username">Username:</label>
             <input
                 type="text"
@@ -69,33 +71,5 @@
 
             <button type="submit">Login</button>
         </form>
-
-        <script>
-            function register() {
-                // Get form data
-                var formData = {
-                    username: document.getElementById("username").value,
-                    password: document.getElementById("password").value,
-                };
-
-                // Make API request (you may need to replace 'your-api-endpoint' with the actual endpoint)
-                fetch("http://localhost:3000/api/login", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(formData),
-                })
-                    .then((response) => response.json())
-                    .then((data) => {
-                        console.log("Success:", data);
-                        // Handle success response (redirect, show a message, etc.)
-                    })
-                    .catch((error) => {
-                        console.error("Error:", error);
-                        // Handle error (show an error message, etc.)
-                    });
-            }
-        </script>
     </body>
 </html>

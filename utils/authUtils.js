@@ -1,29 +1,28 @@
-import { sessions,getSessionFromToken,removeSession } from "../services/sessionServices/sessionService.js"
+import { sessions, getSessionFromToken, removeSession } from "../services/sessionServices/sessionService.js"
 
 export const isAuth = async (req, res, next) => {
     if (!req.cookies) {
-        res.status(401).end()
-        return
+        return res.status(401).end()
     }
 
     const sessionToken = req.cookies['session_token']
-
-    if (!sessionToken) {
-        res.status(401).end()
-        return
+    if (sessionToken === 'undefined') {
+        return res.status(401).end();
     }
 
-    userSession = getSessionFromToken(sessionToken);
+    if (!sessionToken) {
+        return res.status(401).end()
+    }
+
+    const userSession = getSessionFromToken(sessionToken);
 
     if (!userSession) {
-        res.status(401).end()
-        return
+        return res.status(401).end()
     }
 
     if (userSession.isExpired()) {
         removeSession(sessionToken)
-        res.status(401).end()
-        return
+        return res.status(401).end()
     }
 
     next()

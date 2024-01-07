@@ -1,6 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -51,45 +48,15 @@
 </head>
 
 <body>
-
-    <form id="registerForm">
+    <form action="/api/register" method="POST" id="registerForm">
         <label for="username">Username:</label>
         <input type="text" id="username" name="username" required>
 
         <label for="password">Password:</label>
         <input type="password" id="password" name="password" required>
 
-        <button type="button" onclick="register()">Register</button>
+        <button type="submit" class="btn btn-primary">Submit</button>
     </form>
-
-    <script>
-        function register() {
-            // Get form data
-            var formData = {
-                username: document.getElementById('username').value,
-                password: document.getElementById('password').value
-            };
-
-            // Make API request (you may need to replace 'your-api-endpoint' with the actual endpoint)
-            fetch('http://localhost:3000/api/register', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formData),
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Success:', data);
-                // Handle success response (redirect, show a message, etc.)
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-                // Handle error (show an error message, etc.)
-            });
-        }
-    </script>
-
 </body>
 
 </html>

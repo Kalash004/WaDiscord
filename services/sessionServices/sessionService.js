@@ -1,4 +1,5 @@
 import 'dotenv/config';
+import { v4 as uuid } from 'uuid';
 
 class Session {
     constructor(username, expiresAt) {
@@ -14,12 +15,12 @@ class Session {
 export const sessions = {}
 
 export const generateSession = (username) => {
-    const token = uuid.v4();
+    const token = uuid();
     const nowTime = new Date();
     const expiresAt = new Date(+nowTime + process.env.SECONDS_BEFORE_EXPIRATION * 1000);
     const session = new Session(username, expiresAt);
     sessions[token] = session;
-    return session, { expires: expiresAt }
+    return { token: token, expires: expiresAt }
 }
 
 export const getSessionFromToken = (sessionToken) => {
