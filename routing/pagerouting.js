@@ -1,5 +1,7 @@
 import express from 'express';
+import expressWs from 'express-ws';
 import { isAuth } from '../utils/authUtils.js';
+
 
 export const router = express.Router()
 
@@ -19,6 +21,3 @@ router.get("/home", isAuth, (req, res) => {
     res.render("home")
 })
 
-router.get("/chat", (req, res) => {
-    res.render("chat");
-})

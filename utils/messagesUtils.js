@@ -1,6 +1,6 @@
 import { query } from "../dbconn.js"
-import { getUserIdByName } from "./utils.js"
-
+import { getUserIdByName, getChatIdByName } from "./utils.js"
+import { getSessionFromToken } from "../services/sessionServices/sessionService.js"
 
 export const readAllMessages = async (req, res) => {
     const getMessagesFromDb = async () => {
@@ -30,3 +30,24 @@ export const readMessagesByUser = async (req, res) => {
         res.end(`Error : ${err}`)
     }
 }
+
+
+export const sendMessage = async (req, res) => {
+    const chatName = req.params.chatName
+    const message = req.body.message
+    const cookieToken = req.cookies['session_token']
+    const addMessage = async (chatId, userId, messageText) => {
+        const answer = await query("INSERT INTO messages (text, f_userId, f_chatroomId) VALUES (?, ?, ?)", [messageText, userId, chatId])
+        return answer
+    }
+    const userName = getSessionFromToken(cookieToken).username
+    const userId = getUserIdByName(userName)
+    const chatId = getChatIdByName(chatName)
+    try {
+        await addMessage(chatId, userId, message)
+    } catch (err) {
+        console.log(err)
+        res.status(501).end()
+    }
+}
+

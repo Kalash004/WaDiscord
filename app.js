@@ -8,12 +8,13 @@ import { query } from "./dbconn.js";
 import expressWs from 'express-ws';
 import { router as apirotuer } from "./routing/apirouting.js";
 import { router as pagesrouter } from "./routing/pagerouting.js"
+import { isAuth } from './utils/authUtils.js';
  
-const app = express();
+const app = express(); 
+expressWs(app);
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-expressWs(app);
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -25,7 +26,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use("/api", apirotuer)
 app.use("/", pagesrouter)
-
+app.ws("/chat", (ws, req) => {
+    ws.on("open", (msg) => {
+        console.log("opened")
+    })
+})
 
 
 app.listen(process.env.APP_PORT, () => {
