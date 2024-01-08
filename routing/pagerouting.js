@@ -18,3 +18,7 @@ router.get("/", (req, res) => {
 router.get("/home", isAuth, (req, res) => {
     res.render("home")
 })
+
+router.get("/chat", (req, res) => {
+    res.render("chat");
+})
