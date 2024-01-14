@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <body>
+        <form
+            action="/api/connect"
+            method="post">
+            <label for="chatname">Chatname:</label>
+            <input
+                type="text"
+                id="chatname"
+                name="chatname"
+                required />
+
+            <button type="submit">Connect to a chat</button>
+        </form>
+
+        <button id="create_chat">Create chat</button>
+    </body>
+    <script>
+        document.getElementById("create_chat").addEventListener("click", () => {
+            const url = "/api/create";
+            const xhr = new XMLHttpRequest();
+            const chatname = document.getElementById("chatname").value;
+            const data = {
+                chatname: chatname,
+            };
+            xhr.open("POST", url);
+            xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            xhr.send(JSON.stringify(data));
+        });
+    </script>
+</html>

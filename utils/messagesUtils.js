@@ -2,6 +2,11 @@ import { query } from "../dbconn.js"
 import { getUserIdByName, getChatIdByName } from "./utils.js"
 import { getSessionFromToken } from "../services/sessionServices/sessionService.js"
 
+export const getMessagesFromChatByChatId = async (chatId) => {
+    const messages = await query("SELECT users.name as name, messages.text as text FROM messages INNER JOIN users ON messages.f_userId = users.userId WHERE messages.f_chatroomId = ?", [chatId,])
+    return messages
+}
+
 export const readAllMessages = async (req, res) => {
     const getMessagesFromDb = async () => {
         const messages = await query("SELECT * FROM messages")

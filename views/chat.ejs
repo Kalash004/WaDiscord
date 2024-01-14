@@ -56,19 +56,31 @@
             #send-button:hover {
                 background-color: #333; /* Darker shade on hover */
             }
+
+            .username {
+                background-color: black;
+                color: wheat;
+                width: 50%;
+                border-radius: 5px;
+                text-align: center;
+            }
+
+            .message-block {
+                text-decoration: none;
+                list-style: none;
+            }
         </style>
     </head>
     <body>
         <div id="chat-container">
             <div id="chat-messages">
-                <ul>
-                    <% messages.forEach((message)=> { %>
-                    <li>
-                        <h2><%= message.sender %></h2>
-                        <p><%= message.text %></p>
+                <ul id="messages-go-here">
+                    <% for(var i=0; i < messages.length; i++) { %>
+                    <li class="message-block">
+                        <h5 class="username"><%= messages[i].name %></h5>
+                        <p class="text"><%= messages[i].text %></p>
                     </li>
-                    <hr />
-                    <% }) %>
+                    <%} %>
                 </ul>
                 <!-- Chat messages will be displayed here -->
             </div>
@@ -84,18 +96,31 @@
                 </button>
             </div>
         </div>
-
         <script>
-            function sendMessage() {
-                // Function to handle sending messages
-                var inputElement = document.getElementById("message-input");
-                var message = inputElement.value;
+            function getCookie(cookieName) {
+                let cookie = {};
+                document.cookie.split(";").forEach(function (el) {
+                    let [key, value] = el.split("=");
+                    cookie[key.trim()] = value;
+                });
+                return cookie[cookieName];
+            }
 
+            function renderMessage(inputElement) {
+                var message = inputElement.value;
                 if (message.trim() !== "") {
                     // Append the message to the chat messages container
-                    var chatMessagesContainer = document.getElementById("chat-messages");
-                    var messageElement = document.createElement("div");
-                    messageElement.textContent = message;
+                    var chatMessagesContainer = document.getElementById("messages-go-here");
+                    var messageElement = document.createElement("li");
+                    messageElement.classList.add("message-block");
+                    var usernameElement = document.createElement("h5");
+                    usernameElement.classList.add("username");
+                    usernameElement.textContent = getCookie("username");
+                    var textElement = document.createElement("p");
+                    textElement.classList.add("text");
+                    textElement.textContent = message;
+                    messageElement.appendChild(usernameElement);
+                    messageElement.appendChild(textElement);
                     chatMessagesContainer.appendChild(messageElement);
 
                     // Clear the input field
@@ -104,6 +129,13 @@
                     // Scroll to the bottom of the chat messages
                     chatMessagesContainer.scrollTop = chatMessagesContainer.scrollHeight;
                 }
+                return;
+            }
+
+            function sendMessage() {
+                // Function to handle sending messages
+                var inputElement = document.getElementById("message-input");
+                renderMessage(inputElement);
             }
         </script>
     </body>

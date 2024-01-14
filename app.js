@@ -26,9 +26,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use("/api", apirotuer)
 app.use("/", pagesrouter)
+
 app.ws("/chat", (ws, req) => {
-    ws.on("open", (msg) => {
-        console.log("opened")
+    ws.on("message", (msg) => {
+        console.log(`messaged ${msg}`)
     })
 })
 
