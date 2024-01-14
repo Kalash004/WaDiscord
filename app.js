@@ -8,7 +8,8 @@ import { query } from "./dbconn.js";
 import expressWs from 'express-ws';
 import { router as apirotuer } from "./routing/apirouting.js";
 import { router as pagesrouter } from "./routing/pagerouting.js"
-import { isAuth } from './utils/authUtils.js';
+import { router as wsrouter } from "./routing/socketsrouting.js"
+import { isAuth } from './utils/basicutils/authUtils.js';
  
 const app = express(); 
 expressWs(app);
@@ -26,12 +27,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use("/api", apirotuer)
 app.use("/", pagesrouter)
-
-app.ws("/chat", (ws, req) => {
-    ws.on("message", (msg) => {
-        console.log(`messaged ${msg}`)
-    })
-})
+app.use("/ws", wsrouter)
 
 
 app.listen(process.env.APP_PORT, () => {

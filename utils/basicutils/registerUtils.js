@@ -1,4 +1,4 @@
-import { query } from "../dbconn.js"
+import { query } from "../../dbconn.js"
 
 
 export const checkNameNotSame = async (name) => {

@@ -1,5 +1,5 @@
-import { query } from "../dbconn.js"
-import { generateSession } from "../services/sessionServices/sessionService.js"
+import { query } from "../../dbconn.js"
+import { generateSession } from "../../services/sessionServices/sessionService.js"
 
 export const checkNameNotSame = async (name) => {
     const result = await query("SELECT COUNT(*) FROM users WHERE users.name = ?", [name,])

@@ -1,6 +1,6 @@
-import { query } from "../dbconn.js"
+import { query } from "../../dbconn.js"
 import { getUserIdByName, getChatIdByName } from "./utils.js"
-import { getSessionFromToken } from "../services/sessionServices/sessionService.js"
+import { getSessionFromToken } from "../../services/sessionServices/sessionService.js"
 
 export const getMessagesFromChatByChatId = async (chatId) => {
     const messages = await query("SELECT users.name as name, messages.text as text FROM messages INNER JOIN users ON messages.f_userId = users.userId WHERE messages.f_chatroomId = ?", [chatId,])
@@ -37,22 +37,30 @@ export const readMessagesByUser = async (req, res) => {
 }
 
 
-export const sendMessage = async (req, res) => {
+export const sendMessageHandler = async (req, res) => {
     const chatName = req.params.chatName
     const message = req.body.message
     const cookieToken = req.cookies['session_token']
-    const addMessage = async (chatId, userId, messageText) => {
-        const answer = await query("INSERT INTO messages (text, f_userId, f_chatroomId) VALUES (?, ?, ?)", [messageText, userId, chatId])
-        return answer
-    }
     const userName = getSessionFromToken(cookieToken).username
-    const userId = getUserIdByName(userName)
-    const chatId = getChatIdByName(chatName)
+    data = {
+        chatId: getChatIdByName(chatName),
+        userId: getUserIdByName(userName),
+        messageText: message
+    }
     try {
-        await addMessage(chatId, userId, message)
+        saveMessageDB(data)
     } catch (err) {
         console.log(err)
         res.status(501).end()
     }
+}
+
+export const saveMessageDB = async (data) => {
+    const addMessage = async (chatId, userId, messageText) => {
+        const answer = await query("INSERT INTO messages (text, f_userId, f_chatroomId) VALUES (?, ?, ?)", [messageText, userId, chatId])
+        return answer
+    }
+    await addMessage(data.chatId, data.userId, data.messageText)
+    return;
 }
 

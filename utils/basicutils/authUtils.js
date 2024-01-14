@@ -1,4 +1,4 @@
-import { sessions, getSessionFromToken, removeSession } from "../services/sessionServices/sessionService.js"
+import { sessions, getSessionFromToken, removeSession } from "../../services/sessionServices/sessionService.js"
 
 export const isAuth = async (req, res, next) => {
     if (!req.cookies) {

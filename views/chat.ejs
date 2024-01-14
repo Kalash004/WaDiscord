@@ -72,6 +72,7 @@
         </style>
     </head>
     <body>
+        <h1><%= chatname %></h1>
         <div id="chat-container">
             <div id="chat-messages">
                 <ul id="messages-go-here">
@@ -97,6 +98,17 @@
             </div>
         </div>
         <script>
+            const chatid = getCookie("chatid");
+            let ws = new WebSocket(`ws://localhost:3000/ws/chat/${chatid}`);
+            ws.onopen = (event) => {
+                const msg = {
+                    type: "connection",
+                    chatid: getCookie("chatid"),
+                };
+                ws.send(JSON.stringify(msg))
+            }
+            ws.onmessage = obtainedMessageFromWsServer(event);
+
             function getCookie(cookieName) {
                 let cookie = {};
                 document.cookie.split(";").forEach(function (el) {
@@ -106,36 +118,57 @@
                 return cookie[cookieName];
             }
 
+            function domMessageCreater(senderName, message) {
+                var chatMessagesContainer = document.getElementById("messages-go-here");
+                var messageElement = document.createElement("li");
+                messageElement.classList.add("message-block");
+                var usernameElement = document.createElement("h5");
+                usernameElement.classList.add("username");
+                usernameElement.textContent = senderName;
+                var textElement = document.createElement("p");
+                textElement.classList.add("text");
+                textElement.textContent = message;
+                messageElement.appendChild(usernameElement);
+                messageElement.appendChild(textElement);
+                chatMessagesContainer.appendChild(messageElement);
+            }
+
             function renderMessage(inputElement) {
-                var message = inputElement.value;
-                if (message.trim() !== "") {
-                    // Append the message to the chat messages container
-                    var chatMessagesContainer = document.getElementById("messages-go-here");
-                    var messageElement = document.createElement("li");
-                    messageElement.classList.add("message-block");
-                    var usernameElement = document.createElement("h5");
-                    usernameElement.classList.add("username");
-                    usernameElement.textContent = getCookie("username");
-                    var textElement = document.createElement("p");
-                    textElement.classList.add("text");
-                    textElement.textContent = message;
-                    messageElement.appendChild(usernameElement);
-                    messageElement.appendChild(textElement);
-                    chatMessagesContainer.appendChild(messageElement);
-
-                    // Clear the input field
-                    inputElement.value = "";
-
-                    // Scroll to the bottom of the chat messages
-                    chatMessagesContainer.scrollTop = chatMessagesContainer.scrollHeight;
-                }
+                const message = inputElement.value;
+                const senderName = getCookie("username");
+                domMessageCreater(senderName, message);
+                inputElement.value = "";
                 return;
+            }
+
+            function sendMessageToWs(text) {
+                const msg = {
+                    type: "message",
+                    chatid: getCookie("chatid"),
+                    username: getCookie("username"),
+                    session_cookie: getCookie("session_token"),
+                    text: text,
+                    date: Date.now(),
+                };
+
+                ws.send(JSON.stringify(msg));
+            }
+
+            function obtainedMessageFromWsServer(event) {
+                const msg = JSON.parse(event.data);
+                switch (msg.type) {
+                    case "chatmessage":
+                        domMessageCreater(msg.username, msg.text);
+                }
             }
 
             function sendMessage() {
                 // Function to handle sending messages
                 var inputElement = document.getElementById("message-input");
+                var message = inputElement.value;
+                if (message.trim() == "") return;
                 renderMessage(inputElement);
+                sendMessageToWs(message);
             }
         </script>
     </body>

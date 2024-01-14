@@ -1,8 +1,8 @@
 import express from 'express';
-import { isAuth } from "../utils/authUtils.js";
-import { registerUser } from "../utils/registerUtils.js";
-import { logUserInAndAddSession } from "../utils/loginUtils.js";
-import { connectChat, createChat } from '../utils/chatUtils.js';
+import { isAuth } from "../utils/basicutils/authUtils.js";
+import { registerUser } from "../utils/basicutils/registerUtils.js";
+import { logUserInAndAddSession } from "../utils/basicutils/loginUtils.js";
+import { connectChat, createChat } from '../utils/basicutils/chatUtils.js';
 
 export const router = express.Router()
 
