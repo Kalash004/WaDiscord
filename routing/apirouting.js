@@ -8,5 +8,5 @@ export const router = express.Router()
 
 router.post('/register', registerUser);
 router.post('/login', logUserInAndAddSession);
-router.post('/connect', connectChat);
-router.post('/create', createChat);
+router.post('/connect', isAuth, connectChat);
+router.post('/create', isAuth, createChat);

@@ -13,6 +13,7 @@ export const logUserInAndAddSession = async (req, res) => {
     const password = req.body.password
     const getPassword = async (name) => {
         const data = await query("SELECT password FROM users WHERE users.name = ?", [name,]);
+        if (data[0] == undefined) return null
         return data[0]["password"];
     }
     try {
@@ -32,7 +33,7 @@ export const logUserInAndAddSession = async (req, res) => {
         const session = generateSession(user);
         res.cookie("session_token", session.token, { expire: session.expires });
         res.cookie("username", req.body.username)
-        return res.redirect("/chat/4");
+        return res.redirect("/home");
     } catch (err) {
         console.log(err)
         res.status(333)

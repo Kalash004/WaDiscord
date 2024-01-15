@@ -9,16 +9,10 @@ const wss = ews.getWss()
 export const router = express.Router()
 
 router.ws("/chat/:id", (ws, req) => {
-    ws.on('connection', (client) => {
-        console.log("Called")
-        console.log(client)
-    })
-
     ws.on("message", (data) => {
         const msg = JSON.parse(data)
         switch (msg.type) {
             case "message":
-                console.log(msg.chatid)
                 messageHandler(msg, connections, msg.chatid);
                 break;
             case "connection": {
