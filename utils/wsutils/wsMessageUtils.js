@@ -1,10 +1,9 @@
 import { saveMessageDB } from '../basicutils/messagesUtils.js'
 import { getUserIdByName } from '../basicutils/utils.js'
-import { clients } from '../../routing/socketsrouting.js'
 
 export const messageHandler = (msg) => {
     sendMessageToDb(msg);
-    sendMessagesToUsers(msg);
+    // sendMessagesToUsers(msg);
 }
 
 async function sendMessageToDb(msg) {
@@ -25,6 +24,6 @@ function sendMessagesToUsers(data) {
             username: data.username,
             text: data.text,
         }
-        ws.send(JSON.stringify(msg))
+        // ws.send(JSON.stringify(msg))
     }
 }

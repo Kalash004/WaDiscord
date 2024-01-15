@@ -20,7 +20,7 @@ router.get("/", (req, res) => {
 })
 
 router.get("/home", isAuth, (req, res) => {
-    res.render("home")
+    res.render("home", { username: req.cookies["username"]})
 })
 
 router.get("/chats", (req, res) => {

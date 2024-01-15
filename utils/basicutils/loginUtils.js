@@ -35,6 +35,6 @@ export const logUserInAndAddSession = async (req, res) => {
         return res.redirect("/home");
     } catch (err) {
         console.log(err)
-        res.end(err)
+        res.status(333)
     }
 }

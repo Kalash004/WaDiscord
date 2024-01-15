@@ -19,14 +19,7 @@ create table messages(
     f_chatroomId int not null
 );
 
-create table join_users_to_chatrooms(
-	id int primary key auto_increment,
-    f_userId int not null,
-	f_chatroomId int not null
-);
 
 ALTER TABLE `messages` ADD FOREIGN KEY (`f_userId`) REFERENCES `users` (`userId`);
 ALTER TABLE `messages` ADD FOREIGN KEY (`f_chatroomId`) REFERENCES `chatrooms` (`chatroomId`);
-ALTER TABLE `join_users_to_chatrooms` ADD FOREIGN KEY (`f_chatroomId`) REFERENCES `chatrooms` (`chatroomId`);
-ALTER TABLE `join_users_to_chatrooms` ADD FOREIGN KEY (`f_userId`) REFERENCES `users` (`userId`);
 
