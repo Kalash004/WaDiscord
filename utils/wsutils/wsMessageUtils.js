@@ -24,12 +24,8 @@ function sendMessagesToUsers(data, connections, chatid) {
         text: data.text,
     }
     for (const [key, item] of Object.entries(connections)) {
-        console.log(key)
         if (key == data.username) { continue }
-        console.log(`${key} : after (${key} == ${data.username})`)
-        console.log(`${item.chatId} == ${chatid}`)
         if (item.chatId == chatid) {
-            console.log(`Sending to ${item.username}`)
             item.link.send(JSON.stringify(msg))
         }
     }

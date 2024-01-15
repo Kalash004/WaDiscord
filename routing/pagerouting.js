@@ -3,6 +3,8 @@ import expressWs from 'express-ws';
 import { isAuth } from '../utils/basicutils/authUtils.js';
 import { getMessagesFromChatByChatId } from '../utils/basicutils/messagesUtils.js';
 import { getChatName } from '../utils/basicutils/chatUtils.js';
+import 'dotenv/config';
+
 
 
 export const router = express.Router()
@@ -20,7 +22,7 @@ router.get("/", (req, res) => {
 })
 
 router.get("/home", isAuth, (req, res) => {
-    res.render("home", { username: req.cookies["username"]})
+    res.render("home", { username: req.cookies["username"] })
 })
 
 router.get("/chats", (req, res) => {
@@ -39,6 +41,6 @@ router.get("/chat/:id", isAuth, async (req, res) => {
     res.cookie("chatid", id)
     res.render("chat", {
         chatname: chatname,
-        messages: old_messages
+        messages: old_messages,
     })
 })
