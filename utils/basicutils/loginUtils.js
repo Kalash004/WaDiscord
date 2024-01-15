@@ -32,7 +32,7 @@ export const logUserInAndAddSession = async (req, res) => {
         const session = generateSession(user);
         res.cookie("session_token", session.token, { expire: session.expires });
         res.cookie("username", req.body.username)
-        return res.redirect("/home");
+        return res.redirect("/chat/4");
     } catch (err) {
         console.log(err)
         res.status(333)

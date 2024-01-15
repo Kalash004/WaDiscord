@@ -16,15 +16,16 @@ router.ws("/chat/:id", (ws, req) => {
 
     ws.on("message", (data) => {
         const msg = JSON.parse(data)
-        console.log(wss.clients)
-        console.log(JSON.stringify(msg))
         switch (msg.type) {
             case "message":
-                messageHandler(msg);
+                console.log(msg.chatid)
+                messageHandler(msg, connections, msg.chatid);
                 break;
             case "connection": {
-                // if (connections)
-                // clients[ws] = msg.chatid
+                if (msg.username in connections) {
+                    delete connections[msg.username]
+                }
+                connections[msg.username] = { username: msg.username, link: ws, chatId: msg.chatid }
                 break;
             }
         }

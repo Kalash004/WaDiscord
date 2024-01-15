@@ -104,10 +104,13 @@
                 const msg = {
                     type: "connection",
                     chatid: getCookie("chatid"),
+                    username: getCookie("username"),
                 };
-                ws.send(JSON.stringify(msg))
-            }
-            ws.onmessage = obtainedMessageFromWsServer(event);
+                ws.send(JSON.stringify(msg));
+            };
+            ws.onmessage = (e) => {
+                obtainedMessageFromWsServer(e);
+            };
 
             function getCookie(cookieName) {
                 let cookie = {};
