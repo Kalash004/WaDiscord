@@ -3,7 +3,6 @@ import { v4 as uuid } from 'uuid';
 
 class Session {
     constructor(username, expiresAt) {
-        this.username = username
         this.expiresAt = expiresAt
     }
 

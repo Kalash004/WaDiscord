@@ -42,5 +42,6 @@ router.get("/chat/:id", isAuth, async (req, res) => {
     res.render("chat", {
         chatname: chatname,
         messages: old_messages,
+        username: req.cookies["username"]
     })
 })

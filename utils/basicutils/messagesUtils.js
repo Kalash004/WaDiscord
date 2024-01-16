@@ -41,7 +41,7 @@ export const sendMessageHandler = async (req, res) => {
     const chatName = req.params.chatName
     const message = req.body.message
     const cookieToken = req.cookies['session_token']
-    const userName = getSessionFromToken(cookieToken).username
+    const userName = req.cookies['username']
     data = {
         chatId: getChatIdByName(chatName),
         userId: getUserIdByName(userName),

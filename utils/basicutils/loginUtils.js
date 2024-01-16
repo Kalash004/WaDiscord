@@ -32,7 +32,7 @@ export const logUserInAndAddSession = async (req, res) => {
         resp.message = "Logged in"
         const session = generateSession(user);
         res.cookie("session_token", session.token, { expire: session.expires });
-        res.cookie("username", req.body.username)
+        res.cookie("username", req.body.username) // CHECK
         return res.redirect("/home");
     } catch (err) {
         console.log(err)
