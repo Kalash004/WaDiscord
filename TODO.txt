@@ -1,1 +1,0 @@
-Make obtaining users name just using session service
