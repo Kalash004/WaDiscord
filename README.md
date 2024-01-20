@@ -2,6 +2,22 @@
 
 ### npm install ejs dotenv cookie-parser body-parser path url express express-ws mysql2 uuid
 
+# Description 
+This is a server+client side app made on express. With it you can host a chat server
+It uses websockets for sending messages between clients and to server
+
+# Used node modules
+- EJS
+- Dotenv
+- Cookie Parser
+- Body Parser
+- Path 
+- Url
+- Express
+- Express-ws
+- Mysql2
+- UUID
+
 # API Documentation
 
 ## `GET /api/readmessages`
