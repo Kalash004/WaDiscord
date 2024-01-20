@@ -104,7 +104,7 @@
         </div>
         <script>
             const chatid = getCookie("chatid");
-            let ws = new WebSocket(`ws://localhost:3000/ws/chat/${chatid}`);
+            let ws = new WebSocket(`wss://antonkalashnikov.online/ws/chat/${chatid}`);
             ws.onopen = (event) => {
                 const msg = {
                     type: "connection",
