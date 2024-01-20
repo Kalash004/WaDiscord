@@ -1,26 +1,7 @@
 import { query } from "../../dbconn.js"
-import { getUserIdByName } from "./utils.js"
 
-export const createChat = async (req, res) => {
-    const chatname = req.body.chatname
-    const addChat = async (chatName) => {
-        const answer = await query("INSERT INTO chatrooms (name) VALUES (?)", [chatName,])
-        return answer
-    }
-    await addChat(chatname)
-    const id = await getChatId(chatname)
-    if (id == 0) return res.status(404).end()
-    connectToChat(id, req, res)
-}
 
-export const connectChat = async (req, res) => {
-    const chatname = req.body.chatname
-    const id = await getChatId(chatname)
-    if (id == 0) return res.status(404).end()
-    connectToChat(id, req, res)
-}
-
-function connectToChat(chatId, req, res) {
+export const connectToChat = (chatId, res) => {
     res.redirect(`/chat/${chatId}`)
 }
 
@@ -35,3 +16,10 @@ export const getChatName = async (id) => {
     if (answer.length == 0) throw new Error("This chat doesnt exist")
     return answer[0]["name"]
 }
+
+export const addChat = async (chatName) => {
+    const answer = await query("INSERT INTO chatrooms (name) VALUES (?)", [chatName,])
+    return answer
+}
+
+
