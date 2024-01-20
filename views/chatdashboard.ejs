@@ -6,22 +6,79 @@
             name="viewport"
             content="width=device-width, initial-scale=1.0" />
         <title>Document</title>
+        <style>
+            body {
+                font-family: "Arial", sans-serif;
+                background-color: white;
+                color: black;
+                margin: 0;
+                padding: 0;
+                height: 100vh;
+            }
+
+            form {
+                margin-bottom: 20px;
+            }
+
+            label {
+                margin-right: 10px;
+            }
+
+            input {
+                padding: 5px;
+                margin-right: 10px;
+            }
+
+            button {
+                padding: 8px 16px;
+                background-color: black;
+                color: white;
+                border: none;
+                cursor: pointer;
+            }
+
+            button:hover {
+                background-color: #333;
+            }
+
+            .button_holder {
+                display: inline;
+            }
+
+            .div {
+                display: inline-block;
+                padding-top: 10%;
+                text-align: center;
+                width: 100%;
+            }
+        </style>
     </head>
     <body>
-        <form
-            action="/api/connect"
-            method="post">
-            <label for="chatname">Chatname:</label>
-            <input
-                type="text"
-                id="chatname"
-                name="chatname"
-                required />
-
-            <button type="submit">Connect to a chat</button>
-        </form>
-
-        <button id="create_chat">Create chat</button>
+        <div class="div">
+            <H1>Chathub</H1>
+            <form
+                action="/api/connect"
+                method="post">
+                <label for="chatname">Chatname:</label>
+                <input
+                    type="text"
+                    id="chatname"
+                    name="chatname"
+                    required />
+            </form>
+            <div class="button_holder">
+                <button
+                    class="connect_b"
+                    id="conenct_chat">
+                    Connect
+                </button>
+                <button
+                    class="create_b"
+                    id="create_chat">
+                    Create
+                </button>
+            </div>
+        </div>
     </body>
     <script>
         document.getElementById("create_chat").addEventListener("click", async () => {
@@ -32,16 +89,37 @@
             };
             const response = await fetch(url, {
                 method: "POST",
-                mode: "cors", // no-cors, *cors, same-origin
-                cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-                credentials: "same-origin", // include, *same-origin, omit
+                mode: "cors",
+                cache: "no-cache",
+                credentials: "same-origin",
                 headers: {
                     "Content-Type": "application/json",
-                    // 'Content-Type': 'application/x-www-form-urlencoded',
                 },
-                redirect: "follow", // manual, *follow, error
-                referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-                body: JSON.stringify(data), // body data type must match "Content-Type" header
+                redirect: "follow",
+                referrerPolicy: "no-referrer",
+                body: JSON.stringify(data),
+            }).then((res) => {
+                console.log(res);
+                window.location.href = res.url;
+            });
+        });
+        document.getElementById("conenct_chat").addEventListener("click", async () => {
+            const url = "/api/connect";
+            const chatname = document.getElementById("chatname").value;
+            const data = {
+                chatname: chatname,
+            };
+            const response = await fetch(url, {
+                method: "POST",
+                mode: "cors",
+                cache: "no-cache",
+                credentials: "same-origin",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                redirect: "follow",
+                referrerPolicy: "no-referrer",
+                body: JSON.stringify(data),
             }).then((res) => {
                 console.log(res);
                 window.location.href = res.url;

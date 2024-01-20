@@ -1,14 +1,8 @@
 import { saveMessageDB } from '../basicutils/messagesUtils.js'
 import { getUserIdByName } from '../basicutils/utils.js'
-import { getSessionFromToken, sessions } from "../../services/sessionServices/sessionService.js"
+import { getSessionFromToken } from "../../services/sessionServices/sessionService.js"
 
-
-export const messageHandler = async (msg, ws, chatid) => {
-    await sendMessageToDb(msg);
-    await sendMessagesToUsers(msg, ws, chatid);
-}
-
-async function sendMessageToDb(msg) {
+export const sendMessageToDb = async (msg) => {
     const session = getSessionFromToken(msg.session_cookie)
     const userid = await getUserIdByName(session.username)
     const data = {
@@ -20,7 +14,7 @@ async function sendMessageToDb(msg) {
     saveMessageDB(data)
 }
 
-async function sendMessagesToUsers(data, connections, chatid) {
+export const sendMessagesToUsers = async (data, connections, chatid) => {
     const msg = {
         type: "chatmessage",
         username: getSessionFromToken(data.session_cookie).username,
