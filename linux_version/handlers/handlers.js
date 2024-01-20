@@ -191,6 +191,13 @@ export const wsChatHandler = async (ws) => {
                 connections[username] = { username: username, link: ws, chatId: chatId }
                 break;
             }
+            case "ping": {
+                const msg = {
+                    type: "pong",
+                }
+                ws.send(JSON.stringify(msg));
+                break;
+            }
         }
     })
 }
